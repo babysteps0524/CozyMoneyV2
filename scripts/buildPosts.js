@@ -132,30 +132,49 @@ function renderMarkdown(markdown) {
 }
 
 function validatePostImages(markdown, postTitle) {
-  const imageMatches = [
-    ...String(markdown).matchAll(
-      /!\[[^\]]*\]\((https:\/\/(?:images\.)?pexels\.com\/[^)\s]+)\)/gi,
-    ),
+  const allImageMatches = [
+    ...String(markdown).matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g),
   ];
 
-  const allImageMatches = [...String(markdown).matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g)];
+  if (allImageMatches.length !== 2) {
+    throw new Error(
+      `게시글 이미지가 정확히 2개가 아닙니다: ${postTitle} → ${allImageMatches.length}개`,
+    );
+  }
+
+  const providers = new Set();
 
   for (const match of allImageMatches) {
     const imageUrl = match[1];
 
-    if (!/^https:\/\/(?:images\.)?pexels\.com\//i.test(imageUrl)) {
-      throw new Error(
-        `게시글 이미지가 Pexels HTTPS URL이 아닙니다: ${postTitle} → ${imageUrl}`,
-      );
+    if (/^https:\/\/(?:images\.)?pexels\.com\//i.test(imageUrl)) {
+      providers.add("pexels");
+      continue;
     }
+
+    if (/^https:\/\/images\.unsplash\.com\//i.test(imageUrl)) {
+      providers.add("unsplash");
+      continue;
+    }
+
+    throw new Error(
+      `게시글 이미지 URL이 허용된 제공자 URL이 아닙니다: ${postTitle} → ${imageUrl}`,
+    );
   }
 
-  if (imageMatches.length === 0) {
-    throw new Error(`게시글에 Pexels 이미지가 없습니다: ${postTitle}`);
+  if (providers.size < 2) {
+    throw new Error(
+      `게시글은 Pexels 1개 + Unsplash 1개 이미지 구성이 필요합니다: ${postTitle}`,
+    );
   }
 
-  if (imageMatches.length > 2) {
-    throw new Error(`게시글 이미지가 2개를 초과했습니다: ${postTitle}`);
+  const creditCount = (String(markdown).match(/class="image-credit"/g) || [])
+    .length;
+
+  if (creditCount !== 2) {
+    throw new Error(
+      `게시글 이미지 출처 표시가 2개가 아닙니다: ${postTitle} → ${creditCount}개`,
+    );
   }
 }
 
@@ -269,15 +288,6 @@ function navHtml() {
       </button>
 
       <ul id="primary-navigation" class="site-nav-list">
-        <li class="site-nav-item">
-          <a href="/loan/" class="site-nav-link" data-page="loan" data-spa="true">대출 계산기</a>
-        </li>
-        <li class="site-nav-item">
-          <a href="/savings/" class="site-nav-link" data-page="savings" data-spa="true">예/적금 계산기</a>
-        </li>
-        <li class="site-nav-item">
-          <a href="/salary/" class="site-nav-link" data-page="salary" data-spa="true">연봉/시급 계산기</a>
-        </li>
         ${Object.entries(BOARDS)
           .map(
             ([board, info]) => `
@@ -385,6 +395,8 @@ function shellStart({ title, description, canonical, ogType = "website" }) {
                 class="site-logo"
                 src="/images/logo/cozymoney_01.svg"
                 alt="CozyMoney 로고"
+                w="240px"
+                h="60px"
               />
             </a>
           </h1>
@@ -645,8 +657,6 @@ function writePostsJson(posts) {
   );
 }
 
-
-
 const posts = collectPosts();
 
 removeGeneratedBoardDirs();
@@ -662,7 +672,6 @@ for (const post of posts) {
     createPostHtml(post, posts),
     "utf-8",
   );
-
 }
 
 for (const board of Object.keys(BOARDS)) {
