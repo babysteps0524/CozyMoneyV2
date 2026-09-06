@@ -1,0 +1,124 @@
+# ================================
+
+# Dependencies
+
+# ================================
+
+node_modules/
+.pnpm-store/
+.yarn/
+bun.lockb
+
+# ================================
+
+# Environment variables / Secrets
+
+# ================================
+
+.env
+.env.*
+!.env.example
+
+# ================================
+
+# Logs
+
+# ================================
+
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+bun-debug.log*
+
+# ================================
+
+# Automation reports
+
+# ================================
+
+reports/
+reports/automation/
+
+# ================================
+
+# Build / Generated files
+
+# ================================
+
+dist/
+build/
+.cache/
+.vite/
+.turbo/
+
+# ================================
+
+# OS files
+
+# ================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================
+
+# Editor / IDE
+
+# ================================
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+.idea/
+*.swp
+*.swo
+
+# ================================
+
+# Temporary files
+
+# ================================
+
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# ================================
+
+# Coverage
+
+# ================================
+
+coverage/
+.nyc_output/
+
+# ================================
+
+# Generated automation data
+
+# ================================
+
+scripts/automation/tmp/
+scripts/automation/cache/
+
+# ================================
+
+# Local development files
+
+# ================================
+
+.local/
+.local.*
+
+# ================================
+
+# OS / shell history
+
+# ================================
+
+*.stackdump

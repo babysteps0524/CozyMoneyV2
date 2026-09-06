@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <atom:link
+      href="https://cozymoney.kr/rss.xml"
+      rel="self"
+      type="application/rss+xml"
+    />
+    <title>CozyMoney</title>
+    <link>https://cozymoney.kr/</link>
+    <description>주식, 부동산, 세테크, 보험, 전산세무 정보를 제공하는 코지머니(CozyMoney)</description>
+    <language>ko</language>
+    <copyright>Copyright © 2026 CozyMoney</copyright>
+    <lastBuildDate>Sun, 06 Sep 2026 13:52:02 GMT</lastBuildDate>
+    <ttl>60</ttl>
+
+  </channel>
+</rss>

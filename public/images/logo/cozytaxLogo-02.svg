@@ -1,0 +1,54 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="480"
+  height="120"
+  viewBox="0 0 480 120"
+>
+  <defs>
+    <style>
+      @font-face {
+        font-family:
+          'TmoneyRoundWindExtraBold';
+        src: url(
+          'https://cdn.jsdelivr.net/gh/
+          projectnoonnu/2022/
+          TmoneyRoundWindExtraBold.woff'
+        ) format('woff');
+      }
+      .logo-text {
+        font-family:
+          'TmoneyRoundWindExtraBold',
+          sans-serif;
+        font-weight: 800;
+      }
+    </style>
+  </defs>
+
+  <rect
+    x="10"
+    y="8"
+    width="460"
+    height="4"
+    rx="2"
+    fill="#D9A94E"
+  />
+
+  <text
+    x="240"
+    y="84"
+    text-anchor="middle"
+    class="logo-text"
+    font-size="60"
+    letter-spacing="3"
+    fill="#C1694F"
+  >COZY TAX</text>
+
+  <rect
+    x="10"
+    y="108"
+    width="460"
+    height="4"
+    rx="2"
+    fill="#D9A94E"
+  />
+</svg>

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "fsc-press",
+    "category": "stock",
+    "name": "금융위원회 보도자료",
+    "type": "rss",
+    "url": "http://www.fsc.go.kr/about/fsc_bbs_rss/?fid=0111"
+  },
+
+  {
+    "id": "kasb",
+    "category": "accounting",
+    "name": "한국회계기준원",
+    "type": "rss",
+    "url": "https://www.kasb.or.kr/front/rss/comm030LayerA.do"
+  },
+  {
+    "id": "joseilbo",
+    "category": "tax",
+    "name": "조세일보",
+    "type": "rss",
+    "url": "http://www.joseilbo.com/Contents/rss/rss_total.php"
+  },
+  {
+    "id": "mkStock",
+    "category": "stock",
+    "name": "매일경제 증권",
+    "type": "rss",
+    "url": "https://www.mk.co.kr/rss/50200011/"
+  },
+  {
+    "id": "mkAccounting",
+    "category": "accounting",
+    "name": "매일경제 기업",
+    "url": "https://www.mk.co.kr/rss/50100032/",
+    "type": "rss"
+  },
+  {
+    "id": "ynaEconomy",
+    "category": "stock",
+    "name": "연합뉴스 경제",
+    "url": "https://www.yna.co.kr/rss/economy.xml",
+    "type": "rss"
+  },
+  {
+    "id": "ynaMarket",
+    "category": "stock",
+    "name": "연합뉴스 마켓",
+    "url": "https://www.yna.co.kr/rss/market.xml",
+    "type": "rss"
+  },
+  {
+    "id": "taxlawLatest",
+    "category": "tax",
+    "name": "국세법령정보시스템",
+    "url": "https://www.easylaw.go.kr/CSP/CSP/RssNtcRetrieve.laf?topMenu=serviceUl7",
+    "type": "rss"
+  },
+  {
+    "id": "taxLawUpdate",
+    "category": "tax",
+    "name": "국세법령정보시스템",
+    "url": "https://www.easylaw.go.kr/CSP/CSP/RssNewRetrieve.laf?topMenu=serviceUl7",
+    "type": "rss"
+  },
+  {
+    "id": "taxLawDaily",
+    "category": "tax",
+    "name": "국세법령정보시스템",
+    "url": "https://www.easylaw.go.kr/CSP/CSP/RssCsmRetrieve.laf?topMenu=serviceUl7",
+    "type": "rss"
+  },
+  {
+    "id": "ynaIndustry",
+    "category": "accounting",
+    "name": "연합뉴스 산업",
+    "url": "https://www.yna.co.kr/rss/industry.xml",
+    "type": "rss"
+  }
+]

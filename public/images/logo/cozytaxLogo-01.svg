@@ -1,0 +1,35 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="480"
+  height="120"
+  viewBox="0 0 480 120"
+>
+  <rect
+    x="10"
+    y="8"
+    width="460"
+    height="4"
+    rx="2"
+    fill="#D9A94E"
+  />
+
+  <text
+    x="240"
+    y="86"
+    text-anchor="middle"
+    font-family="Arial, sans-serif"
+    font-weight="800"
+    font-size="66"
+    letter-spacing="4"
+    fill="#7A4B32"
+  >COZY TAX</text>
+
+  <rect
+    x="10"
+    y="108"
+    width="460"
+    height="4"
+    rx="2"
+    fill="#D9A94E"
+  />
+</svg>

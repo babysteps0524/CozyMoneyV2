@@ -1,0 +1,13 @@
+/pages/stock.html /stock/ 301
+/pages/realestate.html /realestate/ 301
+/pages/taxSaving.html /taxSaving/ 301
+/pages/insurance.html /insurance/ 301
+/pages/computertax.html /computertax/ 301
+
+# SPA fallback for calculator routes
+/loan /index.html 200
+/loan/ /index.html 200
+/savings /index.html 200
+/savings/ /index.html 200
+/salary /index.html 200
+/salary/ /index.html 200

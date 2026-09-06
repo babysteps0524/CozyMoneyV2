@@ -1,0 +1,9 @@
+{
+  "plugins": ["prettier-plugin-embed", "prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["uno", "clsx", "cn", "cva", "tw"],
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 80
+}
