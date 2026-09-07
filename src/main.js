@@ -19,7 +19,7 @@ const pageContent = document.querySelector("#page-content");
 // ========================================
 
 function closeMobileMenu() {
-  const nav = document.querySelector(".site-nav");
+  const nav = document.querySelector(".siteNav");
   const toggle = document.querySelector(".mobile-menu-toggle");
 
   if (!nav || !toggle) return;
@@ -29,7 +29,7 @@ function closeMobileMenu() {
 }
 
 function toggleMobileMenu() {
-  const nav = document.querySelector(".site-nav");
+  const nav = document.querySelector(".siteNav");
   const toggle = document.querySelector(".mobile-menu-toggle");
 
   if (!nav || !toggle) return;
@@ -41,7 +41,7 @@ function toggleMobileMenu() {
 function updateActiveNav(pathname = window.location.pathname) {
   const normalized = normalizePath(pathname);
 
-  document.querySelectorAll(".site-nav-link").forEach((link) => {
+  document.querySelectorAll(".siteNavLink").forEach((link) => {
     const href = link.getAttribute("href");
 
     if (!href) return;
@@ -80,7 +80,7 @@ function updateActiveNav(pathname = window.location.pathname) {
       active = normalized === linkPath || normalized.startsWith(linkPath);
     }
 
-    link.classList.toggle("is-active", active);
+    link.classList.toggle("siteNavLinkActive", active);
 
     if (active) {
       link.setAttribute("aria-current", "page");
@@ -470,7 +470,7 @@ function prefetchPost(url) {
 document.addEventListener(
   "pointerover",
   (event) => {
-    const link = event.target.closest("a.post-card-link, a.latest-post-link");
+    const link = event.target.closest("a.postCardLink, a.latestPostLink");
 
     if (!link) {
       return;
@@ -523,7 +523,7 @@ function setupPostPrefetchObserver() {
   );
 
   document
-    .querySelectorAll("a.post-card-link, a.latest-post-link")
+    .querySelectorAll("a.postCardLink, a.latestPostLink")
     .forEach((link) => {
       postPrefetchObserver.observe(link);
     });

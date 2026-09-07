@@ -118,14 +118,14 @@ function renderMarkdown(markdown) {
     katex.renderToString(formula.trim(), {
       displayMode: true,
       throwOnError: false,
-    }),
+    })
   );
 
   html = html.replace(/(?<!\\$)\\$([^$\\n]+)\\$(?!\\$)/g, (_, formula) =>
     katex.renderToString(formula.trim(), {
       displayMode: false,
       throwOnError: false,
-    }),
+    })
   );
 
   return html;
@@ -138,7 +138,7 @@ function validatePostImages(markdown, postTitle) {
 
   if (allImageMatches.length !== 2) {
     throw new Error(
-      `게시글 이미지가 정확히 2개가 아닙니다: ${postTitle} → ${allImageMatches.length}개`,
+      `게시글 이미지가 정확히 2개가 아닙니다: ${postTitle} → ${allImageMatches.length}개`
     );
   }
 
@@ -158,13 +158,13 @@ function validatePostImages(markdown, postTitle) {
     }
 
     throw new Error(
-      `게시글 이미지 URL이 허용된 제공자 URL이 아닙니다: ${postTitle} → ${imageUrl}`,
+      `게시글 이미지 URL이 허용된 제공자 URL이 아닙니다: ${postTitle} → ${imageUrl}`
     );
   }
 
   if (providers.size < 2) {
     throw new Error(
-      `게시글은 Pexels 1개 + Unsplash 1개 이미지 구성이 필요합니다: ${postTitle}`,
+      `게시글은 Pexels 1개 + Unsplash 1개 이미지 구성이 필요합니다: ${postTitle}`
     );
   }
 
@@ -173,7 +173,7 @@ function validatePostImages(markdown, postTitle) {
 
   if (creditCount !== 2) {
     throw new Error(
-      `게시글 이미지 출처 표시가 2개가 아닙니다: ${postTitle} → ${creditCount}개`,
+      `게시글 이미지 출처 표시가 2개가 아닙니다: ${postTitle} → ${creditCount}개`
     );
   }
 }
@@ -232,12 +232,12 @@ function latestPostsHtml(posts, limit = 5) {
         <li class="latest-post-item">
             <a
               href="${escapeAttribute(post.url)}"
-              class="latest-post-link"
+              class="latestPostLink"
               data-spa="true"
             >
               ${escapeHtml(post.title)}
             </a>
-          </li>`,
+          </li>`
     )
     .join("\n");
 }
@@ -248,33 +248,31 @@ function categoryPostsHtml(posts) {
       (post) =>
         /* html */
         `
-        <article class="post-card">
+        <article class="postCard">
             <a
               href="${escapeAttribute(post.url)}"
-              class="post-card-link"
+              class="postCardLink"
               data-spa="true"
             >
-              <div class="post-card-title-row">
-                <h2 class="post-card-title">${escapeHtml(post.title)}</h2>
+              <div class="postCardTitle-row">
+                <h2 class="postCardTitle">${escapeHtml(post.title)}</h2>
                 <time
-                  class="post-card-date"
+                  class="postCardDate"
                   datetime="${escapeAttribute(post.date)}"
                 >
                   ${escapeHtml(post.date)}
                 </time>
               </div>
-              <p class="post-card-description">
-                ${escapeHtml(post.description)}
-              </p>
+              <p class="postCardDescription">${escapeHtml(post.description)}</p>
             </a>
-          </article>`,
+          </article>`
     )
     .join("\n");
 }
 
 function navHtml() {
   return /* html */ `
-    <div class="site-nav-inner">
+    <div class="siteNav-inner">
       <button
         type="button"
         class="mobile-menu-toggle"
@@ -287,18 +285,18 @@ function navHtml() {
         </span>
       </button>
 
-      <ul id="primary-navigation" class="site-nav-list">
+      <ul id="primary-navigation" class="siteNavList">
         ${Object.entries(BOARDS)
           .map(
             ([board, info]) => `
-              <li class="site-nav-item">
+              <li class="siteNav-item">
                 <a
                   href="/${board}/"
-                  class="site-nav-link"
+                  class="siteNavLink"
                   data-page="${board}"
                   data-spa="true"
                 >${info.name}</a>
-              </li>`,
+              </li>`
           )
           .join("")}
       </ul>
@@ -307,8 +305,8 @@ function navHtml() {
 
 function footerHtml() {
   return /* html */ `
-    <footer class="site-footer">
-      <div class="site-footer-links">
+    <footer class="siteFooter">
+      <div class="siteFooter-links">
         <a href="/pages/privacy.html" data-spa="true">개인정보처리방침</a>
       </div>
       <p>
@@ -332,7 +330,7 @@ function leftAdHtml() {
       class="ad-left"
       aria-label="Google AdSense 광고 영역"
     >
-      <div class="ad-label">Google AdSense</div>
+      <div class="adLabel">Google AdSense</div>
       <ins
         class="adsbygoogle"
         data-ad-client="${ADSENSE_CLIENT}"
@@ -349,7 +347,7 @@ function rightAdHtml() {
       class="ad-right"
       aria-label="Google AdSense 광고 영역"
     >
-      <div class="ad-label">Google AdSense</div>
+      <div class="adLabel">Google AdSense</div>
       <ins
         class="adsbygoogle"
         data-ad-client="${ADSENSE_CLIENT}"
@@ -388,7 +386,7 @@ function shellStart({ title, description, canonical, ogType = "website" }) {
       <body class="bodyText">
         ${leftAdHtml()}
 
-        <header class="site-header">
+        <header class="siteHeader">
           <h1>
             <a href="/" data-spa="true" aria-label="CozyMoney 홈">
               <img
@@ -402,7 +400,7 @@ function shellStart({ title, description, canonical, ogType = "website" }) {
           </h1>
         </header>
 
-        <nav class="site-nav" aria-label="주요 메뉴">${navHtml()}</nav>
+        <nav class="siteNav" aria-label="주요 메뉴">${navHtml()}</nav>
       </body>
     </html>
 `;
@@ -418,12 +416,12 @@ function createCategoryHtml({ board, posts, allPosts }) {
     description: info.description,
     canonical,
   })}
-    <div class="site-main-layout">
-      <main id="page-content" class="site-main">
-        <section class="board-intro">
-          <p class="board-eyebrow">CozyMoney</p>
-          <h1 class="board-title">${escapeHtml(info.name)}</h1>
-          <p class="board-description">${escapeHtml(info.description)}</p>
+    <div class="siteMainLayout">
+      <main id="page-content" class="siteMain">
+        <section class="boardIntro">
+          <p class="boardEyebrow">CozyMoney</p>
+          <h1 class="boardTitle">${escapeHtml(info.name)}</h1>
+          <p class="boardDescription">${escapeHtml(info.description)}</p>
         </section>
 
         <section id="postList" class="post-list">
@@ -433,7 +431,7 @@ function createCategoryHtml({ board, posts, allPosts }) {
         <nav id="pagination" aria-label="게시글 페이지"></nav>
       </main>
 
-      <aside class="site-sidebar">
+      <aside class="siteSidebar">
         <nav class="asideNav" aria-label="최신 글">
           <h2 class="asideNavH2">최신 글</h2>
           <ul id="latestPosts" class="latest-post-list">
@@ -464,16 +462,16 @@ function createPostHtml(post, allPosts) {
     canonical,
     ogType: "article",
   })}
-    <div class="site-main-layout">
-      <main id="page-content" class="post-page-content">
-        <article class="markdown-body">
-          <header class="post-header">
-            <p class="post-category">${escapeHtml(post.category)}</p>
+    <div class="siteMainLayout">
+      <main id="page-content" class="postPageContent">
+        <article class="markdownBody">
+          <header class="postHeader">
+            <p class="postCategory">${escapeHtml(post.category)}</p>
             <h1>${escapeHtml(post.title)}</h1>
             <time datetime="${escapeAttribute(post.date)}">${escapeHtml(post.date)}</time>
           </header>
 
-          <div class="post-content">
+          <div class="postContent">
             ${contentHtml}
           </div>
 
@@ -489,7 +487,7 @@ function createPostHtml(post, allPosts) {
         </article>
       </main>
 
-      <aside class="site-sidebar">
+      <aside class="siteSidebar">
         <nav class="asideNav" aria-label="최신 글">
           <h2 class="asideNavH2">최신 글</h2>
           <ul id="latestPosts" class="latest-post-list">
@@ -647,13 +645,13 @@ function writePostsJson(posts) {
       category,
       date,
       url,
-    }),
+    })
   );
 
   fs.writeFileSync(
     path.join(dataDir, "posts.json"),
     JSON.stringify(postList, null, 2),
-    "utf-8",
+    "utf-8"
   );
 }
 
@@ -670,7 +668,7 @@ for (const post of posts) {
   fs.writeFileSync(
     path.join(outputDir, "index.html"),
     createPostHtml(post, posts),
-    "utf-8",
+    "utf-8"
   );
 }
 
@@ -690,7 +688,7 @@ for (const board of Object.keys(BOARDS)) {
       posts: boardPosts,
       allPosts: posts,
     }),
-    "utf-8",
+    "utf-8"
   );
 }
 

@@ -217,7 +217,7 @@ export function renderLoanCalculator(container) {
             <span>원금 ${formatPercent(principalRatio * 100, 1)}</span>
             <span>이자 ${formatPercent((1 - principalRatio) * 100, 1)}</span>
           </div>
-          <div class="h-3 rounded-full bg-cm-card-border overflow-hidden">
+          <div class="h-3 rounded-full bg-cmCard-border overflow-hidden">
             <div class="h-full bg-cm-accent" data-progress="${Math.round(principalRatio * 100)}"></div>
           </div>
         </div>
@@ -237,7 +237,7 @@ export function renderLoanCalculator(container) {
         </div>
         <div class="overflow-x-auto border border-cm-border rounded-cm-sm">
           <table class="w-full text-13px border-collapse min-w-500px">
-            <thead class="bg-cm-card">
+            <thead class="bg-cmCard">
               <tr>
                 <th class="p-2 text-left border-b border-cm-border">회차</th>
                 <th class="p-2 text-right border-b border-cm-border">상환금액</th>
@@ -251,11 +251,11 @@ export function renderLoanCalculator(container) {
                 .map(
                   (r) => `
                 <tr>
-                  <td class="p-2 border-b border-cm-card-border">${r.i}</td>
-                  <td class="p-2 text-right border-b border-cm-card-border">${formatNumber(Math.round(r.payment))}</td>
-                  <td class="p-2 text-right border-b border-cm-card-border">${formatNumber(Math.round(r.principal))}</td>
-                  <td class="p-2 text-right border-b border-cm-card-border">${formatNumber(Math.round(r.interest))}</td>
-                  <td class="p-2 text-right border-b border-cm-card-border">${formatNumber(Math.round(r.remain))}</td>
+                  <td class="p-2 border-b border-cmCard-border">${r.i}</td>
+                  <td class="p-2 text-right border-b border-cmCard-border">${formatNumber(Math.round(r.payment))}</td>
+                  <td class="p-2 text-right border-b border-cmCard-border">${formatNumber(Math.round(r.principal))}</td>
+                  <td class="p-2 text-right border-b border-cmCard-border">${formatNumber(Math.round(r.interest))}</td>
+                  <td class="p-2 text-right border-b border-cmCard-border">${formatNumber(Math.round(r.remain))}</td>
                 </tr>`,
                 )
                 .join("")}

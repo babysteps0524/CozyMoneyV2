@@ -35,7 +35,7 @@
 
   <body class="bodyText" flex="~ col" min-h-screen>
     <aside class="ad-left" aria-label="Google AdSense 광고 영역">
-      <div class="ad-label">Google AdSense</div>
+      <div class="adLabel">Google AdSense</div>
       <ins
         class="adsbygoogle"
         style="display: block; width: 160px; height: 600px"
@@ -46,7 +46,7 @@
       ></ins>
     </aside>
 
-    <header class="site-header">
+    <header class="siteHeader">
       <h1>
         <a
           href="/"
@@ -66,8 +66,8 @@
       </h1>
     </header>
 
-    <nav class="site-nav" aria-label="주요 메뉴">
-      <div class="site-nav-inner">
+    <nav class="siteNav" aria-label="주요 메뉴">
+      <div class="siteNav-inner">
         <button
           type="button"
           class="mobile-menu-toggle"
@@ -80,57 +80,53 @@
           </span>
         </button>
 
-        <ul id="primary-navigation" class="site-nav-list">
-          <li class="site-nav-item">
+        <ul id="primary-navigation" class="siteNavList">
+          <li class="siteNav-item">
             <a
               href="/loan/"
               data-page="loan"
-              class="site-nav-link"
+              class="siteNavLink"
               data-spa="true"
               >대출 계산기</a
             >
           </li>
-          <li class="site-nav-item">
+          <li class="siteNav-item">
             <a
               href="/savings/"
               data-page="savings"
-              class="site-nav-link"
+              class="siteNavLink"
               data-spa="true"
               >예/적금 계산기</a
             >
           </li>
-          <li class="site-nav-item">
+          <li class="siteNav-item">
             <a
               href="/salary/"
               data-page="salary"
-              class="site-nav-link"
+              class="siteNavLink"
               data-spa="true"
               >연봉/시급 계산기</a
             >
           </li>
-          <li class="site-nav-item">
+          <li class="siteNav-item">
             <a
               href="/stock/"
               data-page="stock"
-              class="site-nav-link"
+              class="siteNavLink"
               data-spa="true"
               >주식</a
             >
           </li>
-          <li class="site-nav-item">
-            <a
-              href="/tax/"
-              data-page="tax"
-              class="site-nav-link"
-              data-spa="true"
+          <li class="siteNav-item">
+            <a href="/tax/" data-page="tax" class="siteNavLink" data-spa="true"
               >세금</a
             >
           </li>
-          <li class="site-nav-item">
+          <li class="siteNav-item">
             <a
               href="/accounting/"
               data-page="financialAccounting"
-              class="site-nav-link"
+              class="siteNavLink"
               data-spa="true"
               >재무회계</a
             >
@@ -139,25 +135,25 @@
       </div>
     </nav>
 
-    <div class="site-main-layout" flex-1>
-      <main id="page-content" class="site-main">
+    <div class="siteMainLayout" flex-1>
+      <main id="page-content" class="siteMain">
         <article>
           <section class="home-intro">
             <p class="home-eyebrow">CozyMoney</p>
 
-            <h2 class="home-title">돈을 배우는 가장 편안한 공간</h2>
+            <h2 class="homeTitle">돈을 배우는 가장 편안한 공간</h2>
 
-            <p class="home-description">
+            <p class="homeDescription">
               주식부터 세금과 재무회계까지<br />
               복잡한 금융 이야기를 쉽고 편하게 이해할 수 있도록.
             </p>
           </section>
 
-          <section class="category-grid" aria-label="CozyMoney 카테고리">
+          <section class="categoryGrid" aria-label="CozyMoney 카테고리">
             <a
               href="/stock/"
               data-page="stock"
-              class="category-card"
+              class="categoryCard"
               data-spa="true"
             >
               <h3>주식</h3>
@@ -165,7 +161,7 @@
                 투자에 필요한 기본 지식부터<br />
                 시장 이슈와 투자 상식까지
               </p>
-              <span class="category-card-more">
+              <span class="categoryCard-more">
                 주식 정보 보기
                 <span class="i-mdi-arrow-right" aria-hidden="true"></span>
               </span>
@@ -174,7 +170,7 @@
             <a
               href="/tax/"
               data-page="tax"
-              class="category-card"
+              class="categoryCard"
               data-spa="true"
             >
               <h3>세금</h3>
@@ -182,7 +178,7 @@
                 세금을 이해하고 관리하는 방법<br />
                 연말정산부터 다양한 절세 정보까지
               </p>
-              <span class="category-card-more">
+              <span class="categoryCard-more">
                 세금 정보 보기
                 <span class="i-mdi-arrow-right" aria-hidden="true"></span>
               </span>
@@ -191,7 +187,7 @@
             <a
               href="/accounting/"
               data-page="accounting"
-              class="category-card"
+              class="categoryCard"
               data-spa="true"
             >
               <h3>재무회계</h3>
@@ -199,7 +195,7 @@
                 세금을 이해하고 관리하는 방법<br />
                 연말정산부터 다양한 절세 정보까지
               </p>
-              <span class="category-card-more">
+              <span class="categoryCard-more">
                 세테크 정보 보기
                 <span class="i-mdi-arrow-right" aria-hidden="true"></span>
               </span>
@@ -208,7 +204,7 @@
         </article>
       </main>
 
-      <aside class="site-sidebar">
+      <aside class="siteSidebar">
         <nav class="asideNav" aria-label="최신 글">
           <h2 class="asideNavH2">최신 글</h2>
           <ul id="latestPosts" class="latest-post-list"></ul>
@@ -220,7 +216,7 @@
           flex="~ col"
           mt="24px"
         >
-          <div class="ad-label">Google AdSense</div>
+          <div class="adLabel">Google AdSense</div>
           <ins
             class="adsbygoogle"
             style="display: block"
@@ -233,8 +229,8 @@
       </aside>
     </div>
 
-    <footer class="site-footer">
-      <div class="site-footer-links">
+    <footer class="siteFooter">
+      <div class="siteFooter-links">
         <a href="/pages/privacy.html" data-spa="true">개인정보처리방침</a>
       </div>
       <p>

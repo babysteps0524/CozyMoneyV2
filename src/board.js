@@ -98,13 +98,13 @@ export function renderLatestPosts() {
           <li class="latest-post-item">
             <a
               href="${escapeHtml(post.url)}"
-              class="latest-post-link"
+              class="latestPostLink"
               data-spa="true"
             >
               ${escapeHtml(post.title)}
             </a>
           </li>
-        `,
+        `
     )
     .join("");
 }
@@ -133,29 +133,24 @@ function renderPosts() {
       (post) =>
         /* html */
         `
-          <article class="post-card">
+          <article class="postCard">
             <a
               href="${escapeHtml(post.url)}"
-              class="post-card-link"
+              class="postCardLink"
               data-spa="true"
             >
-              <div class="post-card-title-row">
-                <h2 class="post-card-title">${escapeHtml(post.title)}</h2>
+              <div class="postCardTitle-row">
+                <h2 class="postCardTitle">${escapeHtml(post.title)}</h2>
 
-                <time
-                  class="post-card-date"
-                  datetime="${escapeHtml(post.date)}"
-                >
+                <time class="postCardDate" datetime="${escapeHtml(post.date)}">
                   ${escapeHtml(post.date)}
                 </time>
               </div>
 
-              <p class="post-card-description">
-                ${escapeHtml(post.description)}
-              </p>
+              <p class="postCardDescription">${escapeHtml(post.description)}</p>
             </a>
           </article>
-        `,
+        `
     )
     .join("");
 
@@ -214,7 +209,7 @@ function renderPagination(totalPosts) {
   for (let page = 1; page <= totalPages; page += 1) {
     addButton(
       String(page),
-      page === currentPage ? "page-btn page-btn-active" : "page-btn",
+      page === currentPage ? "pageBtn pageBtnActive" : "pageBtn",
       false,
       () => {
         currentPage = page;
@@ -222,7 +217,7 @@ function renderPagination(totalPosts) {
         renderPosts();
 
         scrollTop();
-      },
+      }
     );
   }
 

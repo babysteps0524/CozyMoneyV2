@@ -1,3 +1,3 @@
-import unocss from "@unocss/eslint-plugin";
+import {configs} from "eslint-plugin-better-unocss";
 
-export default [unocss.configs.flat];
+export default [configs.recommended];

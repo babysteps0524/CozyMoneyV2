@@ -17,9 +17,9 @@ export function createAdSlot({
       class="adContainer ${minH} ${className}"
       aria-label="${label}"
     >
-      <div class="ad-label text-cm-text-muted text-10px mb-1.5">${label}</div>
+      <div class="adLabel text-cm-text-muted text-10px mb-1.5">${label}</div>
       <div
-        class="adPlaceholder flex items-center justify-center w-full h-full min-h-inherit bg-cm-card border border-dashed border-cm-border rounded-cm-xs text-cm-text-muted text-12px"
+        class="adPlaceholder min-h-inherit bg-cmCard border-cm-border rounded-cmXs text-cm-text-muted text-12px flex h-full w-full items-center justify-center border border-dashed"
       >
         AdSense 영역
       </div>

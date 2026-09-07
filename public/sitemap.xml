@@ -21,6 +21,18 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://cozymoney.kr/stock/260902-1/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://cozymoney.kr/stock/260901-1/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://cozymoney.kr/stock/260901-2/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://cozymoney.kr/stock/260831-1/</loc>
     <priority>0.6</priority>
   </url>
@@ -34,18 +46,6 @@
   </url>
   <url>
     <loc>https://cozymoney.kr/stock/260831-4/</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://cozymoney.kr/stock/260901-1/</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://cozymoney.kr/stock/260901-2/</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://cozymoney.kr/stock/260902-1/</loc>
     <priority>0.6</priority>
   </url>
   <url>
@@ -69,19 +69,15 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cozymoney.kr/tax/260831-1/</loc>
+    <loc>https://cozymoney.kr/tax/260902-1/</loc>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cozymoney.kr/tax/260831-2/</loc>
+    <loc>https://cozymoney.kr/tax/260902-2/</loc>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cozymoney.kr/tax/260831-3/</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://cozymoney.kr/tax/260831-4/</loc>
+    <loc>https://cozymoney.kr/tax/260902-3/</loc>
     <priority>0.6</priority>
   </url>
   <url>
@@ -101,15 +97,19 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cozymoney.kr/tax/260902-1/</loc>
+    <loc>https://cozymoney.kr/tax/260831-1/</loc>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cozymoney.kr/tax/260902-2/</loc>
+    <loc>https://cozymoney.kr/tax/260831-2/</loc>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cozymoney.kr/tax/260902-3/</loc>
+    <loc>https://cozymoney.kr/tax/260831-3/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://cozymoney.kr/tax/260831-4/</loc>
     <priority>0.6</priority>
   </url>
   <url>
