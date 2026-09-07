@@ -1,6 +1,6 @@
 /* =========================================================
-   CozyMoney Responsive Design System
-   PC / Tablet / Mobile
+  CozyMoney Responsive Design System
+  PC / Tablet / Mobile
 ========================================================= */
 
 :root {
@@ -31,7 +31,7 @@
 }
 
 /* -------------------------
-   Base
+  Base
 ------------------------- */
 
 *,
@@ -73,7 +73,7 @@ img,
 svg,
 video,
 canvas {
-  maxwidth: 100%;
+  max-width: 100%;
 }
 
 button,
@@ -91,7 +91,7 @@ a {
 }
 
 /* -------------------------
-   Global layout
+  Global layout
 ------------------------- */
 
 .siteHeader,
@@ -187,11 +187,11 @@ a {
 }
 
 .siteSidebar {
+  top: 0px;
   flex: 0 0 284px;
   width: 284px;
   min-width: 0;
   position: sticky;
-  top: 100px;
 }
 
 .siteSidebar .asideNav {
