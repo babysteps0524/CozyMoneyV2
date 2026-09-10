@@ -69,7 +69,7 @@ function extractUrls(markdown) {
   }
 
   return [...markdown.matchAll(/https?:\/\/[^\s)"\]]+/g)].map((match) =>
-    match[0].replace(/[.,;:]+$/, ""),
+    match[0].replace(/[.,;:]+$/, "")
   );
 }
 
@@ -111,7 +111,7 @@ function validateRequiredFrontmatter(data, article, errors) {
 
   if (!expectedCategory) {
     errors.push(
-      `설정 파일에서 카테고리를 찾을 수 없습니다: ${article.topic.category}`,
+      `설정 파일에서 카테고리를 찾을 수 없습니다: ${article.topic.category}`
     );
   } else if (data.category !== expectedCategory) {
     errors.push(`카테고리가 올바르지 않습니다. 기대값: ${expectedCategory}`);
@@ -137,7 +137,7 @@ function validateRequiredFrontmatter(data, article, errors) {
 
   if (description.length > MAX_DESCRIPTION_LENGTH) {
     errors.push(
-      `description은 ${MAX_DESCRIPTION_LENGTH}자를 넘으면 안 됩니다.`,
+      `description은 ${MAX_DESCRIPTION_LENGTH}자를 넘으면 안 됩니다.`
     );
   }
 
@@ -151,7 +151,7 @@ function validateRequiredFrontmatter(data, article, errors) {
     errors.push(`keywords는 최소 ${MINIMUM_KEYWORDS}개 이상 필요합니다.`);
   } else {
     const invalidKeywords = data.keywords.filter(
-      (keyword) => typeof keyword !== "string" || keyword.trim().length === 0,
+      (keyword) => typeof keyword !== "string" || keyword.trim().length === 0
     );
 
     if (invalidKeywords.length > 0) {
@@ -194,10 +194,12 @@ function validateMarkdownStructure(content, errors) {
     "출처",
   ];
 
-  for (const section of requiredSections) {
-    const pattern = new RegExp(`^##\\s+${section}\\s*$`, "m");
+  const h2Sections = [...content.matchAll(/^##\s+(.+?)\s*$/gm)].map(
+    ([, title]) => title.trim()
+  );
 
-    if (!pattern.test(content)) {
+  for (const section of requiredSections) {
+    if (!h2Sections.includes(section)) {
       errors.push(`필수 H2 섹션이 없습니다: ${section}`);
     }
   }
@@ -208,7 +210,7 @@ function validateMarkdownStructure(content, errors) {
 
   if (content.length < MINIMUM_CONTENT_LENGTH) {
     errors.push(
-      `본문이 너무 짧습니다. 최소 ${MINIMUM_CONTENT_LENGTH}자 이상 필요합니다.`,
+      `본문이 너무 짧습니다. 최소 ${MINIMUM_CONTENT_LENGTH}자 이상 필요합니다.`
     );
   }
 
@@ -222,7 +224,7 @@ function validateMarkdownStructure(content, errors) {
     errors.push(
       `Markdown 문법을 파싱할 수 없습니다: ${
         error instanceof Error ? error.message : String(error)
-      }`,
+      }`
     );
   }
 }
@@ -275,7 +277,7 @@ function validateSources(markdown, article, errors, warnings) {
    */
 
   const matchedSourceUrls = sourceUrls.filter((sourceUrl) =>
-    markdownUrls.includes(sourceUrl),
+    markdownUrls.includes(sourceUrl)
   );
 
   if (matchedSourceUrls.length === 0) {
@@ -291,7 +293,7 @@ function validateSources(markdown, article, errors, warnings) {
   if (sourceUrls.length > 1 && matchedSourceUrls.length < sourceUrls.length) {
     warnings.push(
       `수집된 공식 출처 ${sourceUrls.length}개 중 ` +
-        `${matchedSourceUrls.length}개만 본문에 포함되어 있습니다.`,
+        `${matchedSourceUrls.length}개만 본문에 포함되어 있습니다.`
     );
   }
 
@@ -305,7 +307,7 @@ function validateSources(markdown, article, errors, warnings) {
 
   if (unknownUrls.length > 0) {
     warnings.push(
-      `검증된 공식 출처가 아닌 외부 URL ${unknownUrls.length}개가 포함되어 있습니다.`,
+      `검증된 공식 출처가 아닌 외부 URL ${unknownUrls.length}개가 포함되어 있습니다.`
     );
   }
 }
@@ -342,7 +344,7 @@ function validateEmptySections(content, errors) {
   for (const section of sections) {
     const pattern = new RegExp(
       `##\\s+${section}\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`,
-      "m",
+      "m"
     );
 
     const match = content.match(pattern);
@@ -383,7 +385,7 @@ function validateOutputFormat(content, errors, warnings) {
 
   if (/<\/?[a-z][^>]*>/i.test(content)) {
     warnings.push(
-      "본문에 HTML 태그가 포함되어 있습니다. Markdown 중심 작성을 권장합니다.",
+      "본문에 HTML 태그가 포함되어 있습니다. Markdown 중심 작성을 권장합니다."
     );
   }
 }
@@ -407,12 +409,12 @@ function validateRepeatedContent(content, warnings) {
   }
 
   const repeatedSentences = [...counts.entries()].filter(
-    ([, count]) => count >= 2,
+    ([, count]) => count >= 2
   );
 
   if (repeatedSentences.length > 0) {
     warnings.push(
-      `동일하거나 유사한 문장이 반복될 가능성이 있습니다: ${repeatedSentences.length}개`,
+      `동일하거나 유사한 문장이 반복될 가능성이 있습니다: ${repeatedSentences.length}개`
     );
   }
 }
@@ -522,7 +524,7 @@ export function validateArticle(article) {
 
     logWarning(
       `검수 중 오류 발생: ${article?.topic?.title ?? "알 수 없는 글"}`,
-      message,
+      message
     );
 
     return {
@@ -554,40 +556,116 @@ function validateImages(article, errors) {
     return;
   }
 
-  if (article.images.length === 0) {
-    errors.push("사용할 이미지가 없습니다.");
+  if (article.images.length !== 2) {
+    errors.push(
+      `이미지는 정확히 2개가 필요합니다. 현재 ${article.images.length}개입니다.`
+    );
     return;
   }
 
-  if (article.images.length > 2) {
-    errors.push("이미지는 최대 2개까지만 허용됩니다.");
-  }
-
-  const seenIds = new Set();
+  const seenImages = new Set();
+  const providers = [];
 
   for (const image of article.images) {
-    if (image?.provider !== "pexels") {
-      errors.push("이미지 제공자는 Pexels만 허용됩니다.");
+    const provider = String(image?.provider ?? "")
+      .trim()
+      .toLowerCase();
+
+    providers.push(provider);
+
+    /*
+     * Pexels / Unsplash만 허용
+     */
+    if (provider !== "pexels" && provider !== "unsplash") {
+      errors.push(
+        `지원하지 않는 이미지 제공자입니다: ${image?.provider ?? "없음"}`
+      );
+      continue;
     }
 
+    /*
+     * 이미지 ID 검수
+     */
     if (!image?.id) {
-      errors.push("Pexels 이미지 ID가 없습니다.");
-    } else if (seenIds.has(String(image.id))) {
-      errors.push("같은 Pexels 이미지를 중복 사용했습니다.");
+      errors.push(`${provider} 이미지 ID가 없습니다.`);
     } else {
-      seenIds.add(String(image.id));
+      const imageKey = `${provider}:${String(image.id)}`;
+
+      if (seenImages.has(imageKey)) {
+        errors.push(`같은 ${provider} 이미지를 중복 사용했습니다.`);
+      } else {
+        seenImages.add(imageKey);
+      }
     }
 
-    if (!image?.publicPath || !/^https:\/\/(?:images\.)?pexels\.com\//i.test(image.publicPath)) {
-      errors.push("Pexels 이미지 URL이 올바르지 않습니다.");
+    /*
+     * 이미지 URL 검수
+     */
+    if (
+      !image?.publicPath ||
+      typeof image.publicPath !== "string" ||
+      !/^https:\/\//i.test(image.publicPath)
+    ) {
+      errors.push(`${provider} 이미지 URL이 올바르지 않습니다.`);
     }
 
-    if (!image?.sourceUrl || !/^https:\/\/www\.pexels\.com\//i.test(image.sourceUrl)) {
-      errors.push("Pexels 원본 사진 URL이 없습니다.");
+    /*
+     * 원본 이미지 페이지 URL 검수
+     */
+    if (
+      !image?.sourceUrl ||
+      typeof image.sourceUrl !== "string" ||
+      !/^https:\/\//i.test(image.sourceUrl)
+    ) {
+      errors.push(`${provider} 원본 사진 URL이 없습니다.`);
     }
 
-    if (!image?.photographer) {
-      errors.push("Pexels 사진가 정보가 없습니다.");
+    /*
+     * 사진가 정보 검수
+     *
+     * Pexels와 Unsplash 모두 사진가 정보를
+     * 가지고 있어야 한다.
+     */
+    if (
+      !image?.photographer ||
+      typeof image.photographer !== "string" ||
+      image.photographer.trim() === ""
+    ) {
+      errors.push(`${provider} 사진가 정보가 없습니다.`);
     }
+  }
+
+  /*
+   * ============================================================
+   * 이미지 제공자 조합 검수
+   * ============================================================
+   *
+   * 1순위
+   * Pexels 1개 + Unsplash 1개
+   *
+   * 2순위
+   * Pexels 2개
+   * 또는
+   * Unsplash 2개
+   *
+   * 위 세 가지 조합만 허용한다.
+   */
+
+  const pexelsCount = providers.filter(
+    (provider) => provider === "pexels"
+  ).length;
+
+  const unsplashCount = providers.filter(
+    (provider) => provider === "unsplash"
+  ).length;
+
+  const isMixed = pexelsCount === 1 && unsplashCount === 1;
+  const isPexelsOnly = pexelsCount === 2 && unsplashCount === 0;
+  const isUnsplashOnly = pexelsCount === 0 && unsplashCount === 2;
+
+  if (!isMixed && !isPexelsOnly && !isUnsplashOnly) {
+    errors.push(
+      "이미지 조합이 올바르지 않습니다. Pexels 1개 + Unsplash 1개, Pexels 2개 또는 Unsplash 2개만 허용됩니다."
+    );
   }
 }

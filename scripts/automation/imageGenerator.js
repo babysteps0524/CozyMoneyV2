@@ -173,7 +173,7 @@ function tokenize(value = "") {
     normalizeText(value)
       .split(/[\s-]+/)
       .map((token) => token.trim())
-      .filter((token) => token.length >= 2),
+      .filter((token) => token.length >= 2)
   );
 }
 
@@ -226,7 +226,7 @@ function getPhotoMetadataText(photo) {
         : []),
     ]
       .filter(Boolean)
-      .join(" "),
+      .join(" ")
   );
 }
 
@@ -251,7 +251,7 @@ function isBlockedPhoto(photo) {
         : []),
     ]
       .filter(Boolean)
-      .join(" "),
+      .join(" ")
   );
 
   return BLOCKED_TERMS.some((term) => {
@@ -286,7 +286,7 @@ function isPersonPhoto(photo) {
         haystack
           .split(/\s+/)
           .map((word) => word.trim())
-          .filter(Boolean),
+          .filter(Boolean)
       );
 
       return words.has(normalizedTerm);
@@ -403,7 +403,7 @@ async function searchPexels(query) {
       headers: {
         Authorization: apiKey,
       },
-    },
+    }
   );
 
   const data = await fetchJson(response);
@@ -444,14 +444,14 @@ async function searchUnsplash(query) {
         Authorization: `Client-ID ${accessKey}`,
         "Accept-Version": "v1",
       },
-    },
+    }
   );
 
   const data = await fetchJson(response);
 
   if (!response.ok) {
     throw new Error(
-      data?.errors?.join(", ") || `Unsplash API 오류: HTTP ${response.status}`,
+      data?.errors?.join(", ") || `Unsplash API 오류: HTTP ${response.status}`
     );
   }
 
@@ -477,7 +477,7 @@ function createImageAlt(article, index, photo) {
 
 function createPexelsCredit(photo) {
   const photographer = escapeMarkdownText(
-    photo?.photographer || "Pexels 사진가",
+    photo?.photographer || "Pexels 사진가"
   );
 
   const sourceUrl = photo?.url || "https://www.pexels.com/";
@@ -487,14 +487,14 @@ function createPexelsCredit(photo) {
 
 function createUnsplashCredit(photo) {
   const photographer = escapeMarkdownText(
-    photo?.user?.name || "Unsplash 사진가",
+    photo?.user?.name || "Unsplash 사진가"
   );
 
   const username = photo?.user?.username || "";
 
   const profileUrl = username
     ? `https://unsplash.com/@${encodeURIComponent(
-        username,
+        username
       )}?utm_source=cozymoney&utm_medium=referral`
     : photo?.user?.links?.html
       ? `${photo.user.links.html}?utm_source=cozymoney&utm_medium=referral`
@@ -606,9 +606,9 @@ function findInsertionIndex(blocks, ratio, excludedIndexes = new Set()) {
         precedingLength /
           Math.max(
             1,
-            blocks.reduce((sum, block) => sum + block.length, 0),
+            blocks.reduce((sum, block) => sum + block.length, 0)
           ) -
-          ratio,
+          ratio
       ),
     });
   }
@@ -623,7 +623,7 @@ function insertImagesIntoMarkdown(markdown, article, photos) {
     throw new Error(
       `이미지 삽입에는 정확히 2개의 이미지가 필요합니다. 현재: ${
         photos?.length ?? 0
-      }개`,
+      }개`
     );
   }
 
@@ -684,12 +684,12 @@ function insertImagesIntoMarkdown(markdown, article, photos) {
    */
   const imageCount =
     result.match(
-      /!\[[^\]]*\]\((https:\/\/(?:images\.)?pexels\.com\/[^)\s]+|https:\/\/images\.unsplash\.com\/[^)\s]+)\)/gi,
+      /!\[[^\]]*\]\((https:\/\/(?:images\.)?pexels\.com\/[^)\s]+|https:\/\/images\.unsplash\.com\/[^)\s]+)\)/gi
     ) || [];
 
   if (imageCount.length !== 2) {
     throw new Error(
-      `이미지 삽입 후 Markdown 이미지가 정확히 2개가 아닙니다. 현재: ${imageCount.length}개`,
+      `이미지 삽입 후 Markdown 이미지가 정확히 2개가 아닙니다. 현재: ${imageCount.length}개`
     );
   }
 
@@ -715,7 +715,7 @@ async function triggerUnsplashDownload(photo) {
   } catch (error) {
     logWarning(
       `Unsplash 다운로드 추적 호출 실패: ${photo?.id || "unknown"}`,
-      error instanceof Error ? error.message : String(error),
+      error instanceof Error ? error.message : String(error)
     );
   }
 }
@@ -724,7 +724,7 @@ function selectPhotos(
   photos,
   article,
   preferredProviders = null,
-  usedImages = new Set(),
+  usedImages = new Set()
 ) {
   const maxImages = 2;
 
@@ -747,7 +747,7 @@ function selectPhotos(
       logInfo(
         `인물 이미지 후보 제외: ${photo?.id || "unknown"} / ${
           photo?.alt || photo?.alt_description || "메타데이터 없음"
-        }`,
+        }`
       );
 
       return false;
@@ -782,7 +782,7 @@ function selectPhotos(
       const candidate = scored.find(
         (item) =>
           item.photo.provider === preferredProvider &&
-          !selectedIds.has(`${preferredProvider}:${String(item.photo.id)}`),
+          !selectedIds.has(`${preferredProvider}:${String(item.photo.id)}`)
       );
 
       if (candidate) {
@@ -856,7 +856,7 @@ function selectPhotos(
         logWarning(
           `최종 이미지 선택 단계에서 인물 이미지 제거: ${
             photo?.id || "unknown"
-          }`,
+          }`
         );
 
         return false;
@@ -917,7 +917,7 @@ export async function generateArticleImages(article, usedImages = new Set()) {
 
       if (personPhotos.length > 0) {
         logInfo(
-          `${provider} 인물 이미지 후보 ${personPhotos.length}개 자동 제외: ${title}`,
+          `${provider} 인물 이미지 후보 ${personPhotos.length}개 자동 제외: ${title}`
         );
       }
 
@@ -939,7 +939,7 @@ export async function generateArticleImages(article, usedImages = new Set()) {
       providerResults.set(provider, usablePhotos);
 
       logInfo(
-        `${provider} 사용 가능 후보 ${usablePhotos.length}개 확보: ${title}`,
+        `${provider} 사용 가능 후보 ${usablePhotos.length}개 확보: ${title}`
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -970,45 +970,34 @@ export async function generateArticleImages(article, usedImages = new Set()) {
       [...pexelsPhotos, ...unsplashPhotos],
       article,
       null,
-      usedImages,
+      usedImages
     );
   }
 
   /*
    * 2순위:
    *
-   * Unsplash 2개
+   * Unsplash 2개 또는 Pexels 2개
    */
-  if (
-    selectedPhotos.length < config.images.minPerArticle &&
-    unsplashPhotos.length >= 2
-  ) {
+  if (selectedPhotos.length < 2 && unsplashPhotos.length >= 2) {
     selectionMode = "unsplash_only";
 
     selectedPhotos = selectPhotos(
       unsplashPhotos,
       article,
       [PROVIDERS.UNSPLASH],
-      usedImages,
+      usedImages
     );
   }
 
-  /*
-   * 3순위:
-   *
-   * Pexels 2개
-   */
-  if (
-    selectedPhotos.length < config.images.minPerArticle &&
-    pexelsPhotos.length >= 2
-  ) {
+  if (selectedPhotos.length < 2 && pexelsPhotos.length >= 2) {
     selectionMode = "pexels_only";
 
     selectedPhotos = selectPhotos(
       pexelsPhotos,
       article,
       [PROVIDERS.PEXELS],
-      usedImages,
+      usedImages
     );
   }
 
@@ -1016,13 +1005,13 @@ export async function generateArticleImages(article, usedImages = new Set()) {
    * 이미지 2개를 확보하지 못하면
    * 게시하지 않는다.
    */
-  if (selectedPhotos.length < config.images.minPerArticle) {
+  if (selectedPhotos.length !== 2) {
     const details = providerErrors.length
       ? ` ${providerErrors.join(" | ")}`
       : " 두 제공자에서 인물이 없는 이미지 2개를 확보하지 못했습니다.";
 
     throw new Error(
-      `게시글에 사용할 인물이 없는 이미지 2개를 확보하지 못했습니다: ${title}.${details}`,
+      `게시글에 사용할 인물이 없는 이미지 2개를 확보하지 못했습니다: ${title}.${details}`
     );
   }
 
@@ -1036,7 +1025,7 @@ export async function generateArticleImages(article, usedImages = new Set()) {
 
   if (finalPersonCheck) {
     throw new Error(
-      `인물 이미지가 최종 선택 단계에서 감지되었습니다. 게시글을 게시하지 않습니다: ${title}`,
+      `인물 이미지가 최종 선택 단계에서 감지되었습니다. 게시글을 게시하지 않습니다: ${title}`
     );
   }
 
@@ -1047,7 +1036,7 @@ export async function generateArticleImages(article, usedImages = new Set()) {
   await Promise.all(
     selectedPhotos
       .filter((photo) => photo.provider === PROVIDERS.UNSPLASH)
-      .map(triggerUnsplashDownload),
+      .map(triggerUnsplashDownload)
   );
 
   const images = selectedPhotos.map((photo, index) => ({
@@ -1076,23 +1065,23 @@ export async function generateArticleImages(article, usedImages = new Set()) {
   logInfo(
     `인물 없는 이미지 2개 선택 완료: ${title} (${images
       .map((item) => item.provider)
-      .join(", ")}, ${selectionMode})`,
+      .join(", ")}, ${selectionMode})`
   );
 
   const markdownWithImages = insertImagesIntoMarkdown(
     article.markdown,
     article,
-    selectedPhotos,
+    selectedPhotos
   );
 
   const markdownImageCount =
     markdownWithImages.match(
-      /!\[[^\]]*\]\((https:\/\/(?:images\.)?pexels\.com\/[^)\s]+|https:\/\/images\.unsplash\.com\/[^)\s]+)\)/gi,
+      /!\[[^\]]*\]\((https:\/\/(?:images\.)?pexels\.com\/[^)\s]+|https:\/\/images\.unsplash\.com\/[^)\s]+)\)/gi
     ) || [];
 
   if (markdownImageCount.length !== 2) {
     throw new Error(
-      `이미지 2개는 확보했지만 Markdown 삽입에 실패했습니다. 현재 Markdown 이미지: ${markdownImageCount.length}개`,
+      `이미지 2개는 확보했지만 Markdown 삽입에 실패했습니다. 현재 Markdown 이미지: ${markdownImageCount.length}개`
     );
   }
 
@@ -1104,7 +1093,7 @@ export async function generateArticleImages(article, usedImages = new Set()) {
 
   if (creditCount !== 2) {
     throw new Error(
-      `이미지 출처 표시 2개 삽입에 실패했습니다. 현재 출처 표시: ${creditCount}개`,
+      `이미지 출처 표시 2개 삽입에 실패했습니다. 현재 출처 표시: ${creditCount}개`
     );
   }
 

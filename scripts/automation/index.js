@@ -20,24 +20,29 @@ import { factCheckArticles } from "./factCheck.js";
 function getRequiredArticleCount() {
   return Object.values(config.categories).reduce(
     (total, category) => total + category.count,
-    0,
+    0
   );
 }
 
 function validateSelectedTopics(selectedTopics) {
   const requiredArticleCount = getRequiredArticleCount();
 
-  if (!Array.isArray(selectedTopics) || selectedTopics.length !== requiredArticleCount) {
+  if (
+    !Array.isArray(selectedTopics) ||
+    selectedTopics.length !== requiredArticleCount
+  ) {
     throw new Error(
-      `최종 주제 수가 올바르지 않습니다. 필요: ${requiredArticleCount}개, 실제: ${selectedTopics?.length ?? 0}개`,
+      `최종 주제 수가 올바르지 않습니다. 필요: ${requiredArticleCount}개, 실제: ${selectedTopics?.length ?? 0}개`
     );
   }
 
   for (const [categoryKey, category] of Object.entries(config.categories)) {
-    const count = selectedTopics.filter((topic) => topic.category === categoryKey).length;
+    const count = selectedTopics.filter(
+      (topic) => topic.category === categoryKey
+    ).length;
     if (count !== category.count) {
       throw new Error(
-        `${category.name} 최종 주제 수가 올바르지 않습니다. 필요: ${category.count}개, 실제: ${count}개`,
+        `${category.name} 최종 주제 수가 올바르지 않습니다. 필요: ${category.count}개, 실제: ${count}개`
       );
     }
   }
@@ -47,12 +52,14 @@ function selectTopicsByCategory(acceptedTopics) {
   const selectedTopics = [];
 
   for (const [categoryKey, category] of Object.entries(config.categories)) {
-    const categoryTopics = acceptedTopics.filter((topic) => topic.category === categoryKey);
+    const categoryTopics = acceptedTopics.filter(
+      (topic) => topic.category === categoryKey
+    );
 
     if (categoryTopics.length < category.count) {
       throw new Error(
         `중복 검사 후 ${category.name} 주제가 부족합니다. ` +
-          `필요: ${category.count}개, 확보: ${categoryTopics.length}개`,
+          `필요: ${category.count}개, 확보: ${categoryTopics.length}개`
       );
     }
 
@@ -66,7 +73,7 @@ function selectTopicsByCategory(acceptedTopics) {
 async function selectFinalTopics(candidateTopics, existingPosts) {
   const { acceptedTopics, rejectedTopics } = await checkDuplicates(
     candidateTopics,
-    existingPosts,
+    existingPosts
   );
 
   const selectedTopics = selectTopicsByCategory(acceptedTopics);
@@ -82,7 +89,9 @@ async function generateImagesForArticles(articles, result) {
     const title = article.topic?.title ?? "제목 없음";
 
     try {
-      logInfo(`Pexels 이미지 검색 시작 ${index + 1}/${articles.length}: ${title}`);
+      logInfo(
+        `Pexels 이미지 검색 시작 ${index + 1}/${articles.length}: ${title}`
+      );
       const articleWithImages = await generateArticleImages(article);
 
       if (!articleWithImages.images?.length) {
@@ -96,10 +105,17 @@ async function generateImagesForArticles(articles, result) {
         count: articleWithImages.images.length,
       });
 
-      logInfo(`Pexels 이미지 검색 완료: ${title} (${articleWithImages.images.length}개)`);
+      logInfo(
+        `Pexels 이미지 검색 완료: ${title} (${articleWithImages.images.length}개)`
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      result.imageResults.push({ title, status: "FAIL", count: 0, error: message });
+      result.imageResults.push({
+        title,
+        status: "FAIL",
+        count: 0,
+        error: message,
+      });
       logWarning(`Pexels 이미지 검색 실패로 게시 제외: ${title}`, message);
     }
   }
@@ -108,11 +124,18 @@ async function generateImagesForArticles(articles, result) {
 }
 
 function filterValidArticles(articles, validationResults) {
-  const passByTitle = new Map(
-    validationResults.map((item) => [item.topic?.title, item.status === "PASS"]),
+  const publishableStatuses = new Set(["PASS", "WARNING"]);
+
+  const publishableByTitle = new Map(
+    validationResults.map((item) => [
+      item.topic?.title,
+      publishableStatuses.has(item.status),
+    ])
   );
 
-  return articles.filter((article) => passByTitle.get(article.topic?.title) === true);
+  return articles.filter(
+    (article) => publishableByTitle.get(article.topic?.title) === true
+  );
 }
 
 async function runAutoPost() {
@@ -162,33 +185,39 @@ async function runAutoPost() {
     logInfo(`공식 자료 수집 완료: ${result.sourceItems.length}건`);
 
     // 4. JavaScript 1차 필터: 카테고리별 4개 → 총 12개
-    result.filteredSourceItems = selectSourcesForTopicResearch(result.sourceItems);
+    result.filteredSourceItems = selectSourcesForTopicResearch(
+      result.sourceItems
+    );
 
-    const expectedResearchSources = Object.keys(config.categories).length *
+    const expectedResearchSources =
+      Object.keys(config.categories).length *
       config.topicResearchSourcesPerCategory;
 
     if (result.filteredSourceItems.length !== expectedResearchSources) {
       throw new Error(
         `JavaScript 1차 필터 결과가 12개가 아닙니다. ` +
-          `필요: ${expectedResearchSources}개, 실제: ${result.filteredSourceItems.length}개`,
+          `필요: ${expectedResearchSources}개, 실제: ${result.filteredSourceItems.length}개`
       );
     }
 
     // 5. 자료 크기 압축/요약
     result.topicResearchSummaries = createTopicResearchSummaries(
-      result.filteredSourceItems,
+      result.filteredSourceItems
     );
     logInfo(`AI 전달용 자료 압축 완료: ${result.filteredSourceItems.length}개`);
 
     // 6. OpenRouter 주제 선정 AI 1회 → 12개 후보
-    result.candidateTopics = await researchKeywords(result.topicResearchSummaries, {
-      excludeTitles: existingTitles,
-    });
+    result.candidateTopics = await researchKeywords(
+      result.topicResearchSummaries,
+      {
+        excludeTitles: existingTitles,
+      }
+    );
 
     // 7. 중복 검사 → 최종 6개
     const topicSelection = await selectFinalTopics(
       result.candidateTopics,
-      result.existingPosts,
+      result.existingPosts
     );
 
     result.selectedTopics = topicSelection.selectedTopics;
@@ -199,11 +228,11 @@ async function runAutoPost() {
     // 8. 본문 생성: 글별 1회, 실패한 글만 제외
     result.articleDrafts = await generateArticles(
       result.selectedTopics,
-      result.sourceItems,
+      result.sourceItems
     );
 
     logInfo(
-      `본문 생성 완료: ${result.articleDrafts.length}/${requiredArticleCount}개`,
+      `본문 생성 완료: ${result.articleDrafts.length}/${requiredArticleCount}개`
     );
 
     if (result.articleDrafts.length === 0) {
@@ -226,7 +255,7 @@ async function runAutoPost() {
         }));
 
         factCheckedArticles = factCheckedArticles.filter(
-          (article) => article.status !== "FAIL",
+          (article) => article.status !== "FAIL"
         );
 
         logInfo(`AI 사실 검증 통과: ${factCheckedArticles.length}개`);
@@ -234,7 +263,7 @@ async function runAutoPost() {
         const message = error instanceof Error ? error.message : String(error);
         logWarning(
           "AI 사실 검증 API 자체가 실패했습니다. 해당 단계는 건너뛰고 코드 검증으로 진행합니다.",
-          message,
+          message
         );
         factCheckedArticles = result.articleDrafts;
       }
@@ -249,7 +278,7 @@ async function runAutoPost() {
     // 10. Pexels 이미지 검색: 글별 최대 2개, 1개 이상이면 게시 가능
     const articlesWithImages = await generateImagesForArticles(
       factCheckedArticles,
-      result,
+      result
     );
 
     if (articlesWithImages.length === 0) {
@@ -263,14 +292,14 @@ async function runAutoPost() {
 
     const validArticles = filterValidArticles(
       articlesWithImages,
-      result.validationResults,
+      result.validationResults
     );
 
     for (const validation of result.validationResults) {
       if (validation.status === "FAIL") {
         logWarning(
           `코드 검증 실패로 게시 제외: ${validation.topic?.title ?? "제목 없음"}`,
-          validation.errors?.join(" / ") || "검증 실패",
+          validation.errors?.join(" / ") || "검증 실패"
         );
       }
     }
@@ -279,36 +308,68 @@ async function runAutoPost() {
       throw new Error("코드 검증을 통과한 게시글이 없습니다.");
     }
 
-    logInfo(`최종 게시 대상: ${validArticles.length}/${requiredArticleCount}개`);
-
-    // 12. 부분 게시: 한 글의 저장 실패가 다른 글을 막지 않음
-    const publishResult = publishArticles(validArticles, {
-      allowPartialPublishing: config.publishing.allowPartialPublishing,
-    });
-
-    result.publishedArticles = publishResult.publishedArticles;
-    result.publishFailures = publishResult.failedArticles;
-
-    for (const failure of result.publishFailures) {
-      logWarning(`게시 실패: ${failure.title}`, failure.error);
-    }
-
-    if (result.publishedArticles.length === 0) {
-      throw new Error("게시된 게시글이 없습니다.");
-    }
-
     logInfo(
-      `부분 게시 완료: ${result.publishedArticles.length}/${requiredArticleCount}개`,
+      `최종 게시 대상: ${validArticles.length}/${requiredArticleCount}개`
     );
 
-    // 13. 성공한 글만 사이트 빌드
-    await buildSite(result.publishedArticles);
-    result.buildSucceeded = true;
+    // 12. 게시 처리
+    //
+    // DRY_RUN=true:
+    // - 실제 Markdown 저장하지 않음
+    // - 실제 게시하지 않음
+    // - 사이트 빌드하지 않음
+    //
+    // DRY_RUN=false:
+    // - 정상적으로 부분 게시
+    // - 게시 성공한 글만 사이트 빌드
+
+    if (config.dryRun) {
+      logInfo(
+        `[DRY_RUN] 최종 게시 대상: ${validArticles.length}/${requiredArticleCount}개`
+      );
+
+      result.publishedArticles = validArticles.map((article) => ({
+        title: article.topic?.title ?? "제목 없음",
+        category: article.topic?.category ?? "",
+        dryRun: true,
+      }));
+
+      logInfo(`[DRY_RUN] 실제 Markdown 파일 저장을 건너뜁니다.`);
+
+      logInfo(`[DRY_RUN] 실제 게시 및 사이트 빌드를 건너뜁니다.`);
+
+      result.buildSucceeded = true;
+    } else {
+      // 실제 게시 모드
+      const publishResult = publishArticles(validArticles, {
+        allowPartialPublishing: config.publishing.allowPartialPublishing,
+      });
+
+      result.publishedArticles = publishResult.publishedArticles;
+      result.publishFailures = publishResult.failedArticles;
+
+      for (const failure of result.publishFailures) {
+        logWarning(`게시 실패: ${failure.title}`, failure.error);
+      }
+
+      if (result.publishedArticles.length === 0) {
+        throw new Error("게시된 게시글이 없습니다.");
+      }
+
+      logInfo(
+        `부분 게시 완료: ${result.publishedArticles.length}/${requiredArticleCount}개`
+      );
+
+      // 실제 게시된 글만 사이트 빌드
+      await buildSite(result.publishedArticles);
+
+      result.buildSucceeded = true;
+    }
 
     logInfo(
       config.dryRun
-        ? `DRY_RUN 완료: ${result.publishedArticles.length}개 게시글 파일을 생성했습니다.`
-        : `자동 게시 완료: ${result.publishedArticles.length}개`,
+        ? `DRY_RUN 완료: ${validArticles.length}개 게시글을 생성/검증했으며 실제 파일은 저장하지 않았습니다.`
+        : `자동 게시 완료: ${result.publishedArticles.length}개`
     );
   } catch (error) {
     result.error = error instanceof Error ? error.message : String(error);
@@ -323,7 +384,9 @@ async function runAutoPost() {
       } catch (rollbackError) {
         logError(
           "게시글 롤백 실패",
-          rollbackError instanceof Error ? rollbackError.message : String(rollbackError),
+          rollbackError instanceof Error
+            ? rollbackError.message
+            : String(rollbackError)
         );
       }
     }
@@ -339,7 +402,7 @@ async function runAutoPost() {
     } catch (error) {
       logError(
         "자동화 보고서 저장 실패",
-        error instanceof Error ? error.message : String(error),
+        error instanceof Error ? error.message : String(error)
       );
     }
 

@@ -142,30 +142,18 @@ function validatePostImages(markdown, postTitle) {
     );
   }
 
-  const providers = new Set();
-
   for (const match of allImageMatches) {
     const imageUrl = match[1];
 
-    if (/^https:\/\/(?:images\.)?pexels\.com\//i.test(imageUrl)) {
-      providers.add("pexels");
-      continue;
+    const isPexels = /^https:\/\/(?:images\.)?pexels\.com\//i.test(imageUrl);
+
+    const isUnsplash = /^https:\/\/images\.unsplash\.com\//i.test(imageUrl);
+
+    if (!isPexels && !isUnsplash) {
+      throw new Error(
+        `게시글 이미지 URL이 허용된 제공자 URL이 아닙니다: ${postTitle} → ${imageUrl}`
+      );
     }
-
-    if (/^https:\/\/images\.unsplash\.com\//i.test(imageUrl)) {
-      providers.add("unsplash");
-      continue;
-    }
-
-    throw new Error(
-      `게시글 이미지 URL이 허용된 제공자 URL이 아닙니다: ${postTitle} → ${imageUrl}`
-    );
-  }
-
-  if (providers.size < 2) {
-    throw new Error(
-      `게시글은 Pexels 1개 + Unsplash 1개 이미지 구성이 필요합니다: ${postTitle}`
-    );
   }
 
   const creditCount = (String(markdown).match(/class="image-credit"/g) || [])

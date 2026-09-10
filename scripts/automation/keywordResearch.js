@@ -297,9 +297,11 @@ ${sourceSummaries}
 
 반드시 아래 JSON 객체 하나만 출력한다.
 
-설명하지 않는다.
+설명 문장을 출력하지 않는다.
 인사말을 출력하지 않는다.
 Markdown을 출력하지 않는다.
+HTML을 출력하지 않는다.
+코드블록을 사용하지 않는다.
 코드 펜스를 사용하지 않는다.
 <think>를 출력하지 않는다.
 <analysis>를 출력하지 않는다.
@@ -368,7 +370,7 @@ export async function researchKeywords(sourceSummaries, options = {}) {
     );
   }
 
-  logInfo("OpenRouter로 주제 후보를 1회 선정합니다.");
+  logInfo("Gemini로 주제 후보를 1회 선정합니다.");
 
   const compressedSources = compressSourceSummaries(sourceSummaries);
 
@@ -378,7 +380,7 @@ export async function researchKeywords(sourceSummaries, options = {}) {
 
   const response = await generateWithRetry(prompt, {
     responseFormat: "json",
-    preferredProviders: ["openrouter", "groq", "gemini"],
+    preferredProviders: ["gemini", "groq", "openrouter"],
   });
 
   const data = parseJson(response);

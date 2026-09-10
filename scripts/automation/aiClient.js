@@ -8,9 +8,9 @@ const PROVIDERS = {
 };
 
 const DEFAULT_PROVIDER_ORDER = [
-  PROVIDERS.OPENROUTER,
-  PROVIDERS.GROQ,
   PROVIDERS.GEMINI,
+  PROVIDERS.GROQ,
+  PROVIDERS.OPENROUTER,
 ];
 
 const disabledProviders = new Set();
@@ -24,14 +24,13 @@ const usageStats = Object.fromEntries(
       failures: 0,
       quotaErrors: 0,
     },
-  ]),
+  ])
 );
 
 // OpenRouter에서 사용할 모델
-const OPENROUTER_MODEL =
-  process.env.OPENROUTER_MODEL || "dots-studio/dots-3-note-preview:free";
+const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "openrouter/free";
 
-const GROQ_MODEL = process.env.GROQ_MODEL || "groq/compound";
+const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 
@@ -116,14 +115,14 @@ async function generateWithOpenRouter(prompt, responseFormat) {
       method: "POST",
       headers,
       body: JSON.stringify(body),
-    },
+    }
   );
 
   const data = await fetchJson(response);
 
   if (!response.ok) {
     const error = new Error(
-      data?.error?.message || `OpenRouter API 오류: HTTP ${response.status}`,
+      data?.error?.message || `OpenRouter API 오류: HTTP ${response.status}`
     );
     error.status = response.status;
     throw error;
@@ -161,14 +160,14 @@ async function generateWithGroq(prompt, responseFormat) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    },
+    }
   );
 
   const data = await fetchJson(response);
 
   if (!response.ok) {
     const error = new Error(
-      data?.error?.message || `Groq API 오류: HTTP ${response.status}`,
+      data?.error?.message || `Groq API 오류: HTTP ${response.status}`
     );
     error.status = response.status;
     throw error;
@@ -230,7 +229,7 @@ async function tryProvider(provider, prompt, responseFormat) {
 
     logWarning(
       `${providerName(provider)} 사용 불가. 이번 실행에서는 다시 호출하지 않습니다.`,
-      getErrorMessage(error),
+      getErrorMessage(error)
     );
 
     throw error;
@@ -239,7 +238,7 @@ async function tryProvider(provider, prompt, responseFormat) {
 
 export async function generateWithRetry(
   prompt,
-  { responseFormat = "text", preferredProviders = DEFAULT_PROVIDER_ORDER } = {},
+  { responseFormat = "text", preferredProviders = DEFAULT_PROVIDER_ORDER } = {}
 ) {
   if (typeof prompt !== "string" || !prompt.trim()) {
     throw new Error("AI 프롬프트가 올바른 문자열이 아닙니다.");
@@ -264,13 +263,13 @@ export async function generateWithRetry(
   }
 
   throw new Error(
-    `사용 가능한 AI Provider가 없습니다. 마지막 오류: ${getErrorMessage(lastError)}`,
+    `사용 가능한 AI Provider가 없습니다. 마지막 오류: ${getErrorMessage(lastError)}`
   );
 }
 
 export function getConfiguredProviders() {
   return DEFAULT_PROVIDER_ORDER.filter(
-    (provider) => isConfigured(provider) && !disabledProviders.has(provider),
+    (provider) => isConfigured(provider) && !disabledProviders.has(provider)
   );
 }
 

@@ -29,13 +29,13 @@ export const config = {
   // JavaScript 1차 필터: 카테고리별 4개 → 총 12개
   topicResearchSourcesPerCategory: readPositiveNumber(
     process.env.AUTO_POST_RESEARCH_SOURCES_PER_CATEGORY,
-    4,
+    4
   ),
 
   // AI 주제 후보: 카테고리별 4개 → 총 12개
   topicCandidatesPerCategory: readPositiveNumber(
     process.env.AUTO_POST_CANDIDATES_PER_CATEGORY,
-    4,
+    4
   ),
 
   duplicateCheck: {
@@ -49,8 +49,8 @@ export const config = {
   },
 
   images: {
+    minPerArticle: 2,
     maxPerArticle: 2,
-    minPerArticle: 1,
     candidateCount: readPositiveNumber(process.env.PEXELS_CANDIDATE_COUNT, 40),
     minCandidateCount: readPositiveNumber(process.env.PEXELS_MIN_CANDIDATES, 8),
   },
@@ -74,7 +74,7 @@ export function validateEnvironment() {
   if (textProviders.length === 0) {
     throw new Error(
       "본문 생성용 텍스트 AI API 키가 없습니다. " +
-        "OPENROUTER_API_KEY, GROQ_API_KEY, GEMINI_API_KEY 중 하나 이상 필요합니다.",
+        "OPENROUTER_API_KEY, GROQ_API_KEY, GEMINI_API_KEY 중 하나 이상 필요합니다."
     );
   }
 
